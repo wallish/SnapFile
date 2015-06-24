@@ -1,9 +1,10 @@
 {
-	"name":"Projet NodeJS - snapfolder",
+	"name":"SnapFile",
 	"dependencies": {
     	"express": "~4.10.2",
     	"multer": "~0.1.6",
     	"ejs": "^1.0.0",
-    	"express": "^4.6.1"
+    	"express": "^4.6.1",
+    	"gaze":"^0.5.1"
 	}
 }
