@@ -32,3 +32,15 @@ function insert(data){
 	 
 	connection.end();
 }
+
+function delete(id){
+	connection.connect();
+	 
+	connection.query("DELETE FROM Files where id="+id, function(err, rows, fields) {
+	  if (err) throw err;
+	 
+	  console.log(rows);
+	});
+	 
+	connection.end();
+}
