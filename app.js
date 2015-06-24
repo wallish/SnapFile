@@ -19,6 +19,7 @@ app.use(multer({ dest: './uploads/',
 		done=true;
 	}
 }));
+app.use(express.static('public'));
 
 
 app.get('/', function(req, res) {
@@ -26,11 +27,15 @@ app.get('/', function(req, res) {
 });
 
 app.post('/file/upload',function(req,res){
-	var folder = req.param("folder");
+	var folder = req.body.folder;
 	if(done==true){
 		console.log(req.files);
 		res.end("File uploaded.");
 	}
+});
+
+app.get('/create/folder', function(req, res){
+	res.render('pages/formFolder');
 });
 
 app.get('/:folder', function(req, res){
@@ -41,7 +46,7 @@ app.get('/:folder', function(req, res){
 app.get('/:folder/:file', function(req, res){
 	var folder = req.params.folder
     , file = req.params.file;
-    res.sendFile('uploads/' + folder + '/' + file);
+    res.download('uploads/' + folder + '/' + file);
 });
 
 app.listen(8080);
