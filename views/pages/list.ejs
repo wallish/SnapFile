@@ -1,0 +1,39 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <main>
+        <table class="table table-striped">
+        <tr>
+            <td>Type</td>
+            <td>Nom</td>
+            <td>Action</td>
+        </tr>
+            <% for(var i=0; i<data.length; i++) {%>
+            <tr>
+            <td><%=data[i].type%></td>
+            <td><%=data[i].name%></td>
+            <td>
+                <button type="button" class="btn btn-primary btn-xs">Voir</button>
+                <button type="button" class="btn btn-danger btn-xs">Supprimer</button>
+            </td>
+            <% } %>
+        </tr>
+        </table>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    
+</body>
+</html>

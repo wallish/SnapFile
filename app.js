@@ -24,6 +24,21 @@ app.get('/', function(req, res) {
     res.render('pages/index');
 });
 
+app.get('/list', function(req, res) {
+
+
+	var data = [
+				{type:"pdf",name:"dossier1"},
+				{type:"pdf",name:"dossier2"},
+				{type:"pdf",name:"dossier3"},
+				{type:"pdf",name:"dossier4"},
+	];
+	
+    res.render('pages/list',{
+    	data : data,
+    });
+});
+
 app.post('/file/upload',function(req,res){
 	if(done==true){
 		console.log(req.files);
