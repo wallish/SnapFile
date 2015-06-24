@@ -3,7 +3,6 @@ var app = express();
 var multer  = require('multer');
 var done=false;
 
-// set the view engine to ejs
 app.set('view engine', 'ejs');
 
 
@@ -21,13 +20,11 @@ app.use(multer({ dest: './uploads/',
 }));
 
 
-
-// index page 
 app.get('/', function(req, res) {
     res.render('pages/index');
 });
 
-app.post('file/upload',function(req,res){
+app.post('/file/upload',function(req,res){
 	if(done==true){
 		console.log(req.files);
 		res.end("File uploaded.");
