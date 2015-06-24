@@ -2,10 +2,11 @@ var express = require('express');
 var app = express();
 var multer  = require('multer');
 var done=false;
+var bodyParser = require('body-parser');
 
 app.set('view engine', 'ejs');
-
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer({ dest: './uploads/',
 	rename: function (fieldname, filename) {
 		return filename+Date.now();
@@ -40,12 +41,23 @@ app.get('/list', function(req, res) {
 });
 
 app.post('/file/upload',function(req,res){
+	var folder = req.param("folder");
 	if(done==true){
 		console.log(req.files);
 		res.end("File uploaded.");
 	}
 });
 
+app.get('/:folder', function(req, res){
+	var folder = req.params.folder;
+	//res.render('pages/machin',{var:values});
+});
+
+app.get('/:folder/:file', function(req, res){
+	var folder = req.params.folder
+    , file = req.params.file;
+    res.sendFile('uploads/' + folder + '/' + file);
+});
 
 app.listen(8080);
 
