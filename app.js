@@ -3,6 +3,7 @@ var app = express();
 var multer  = require('multer');
 var done=false;
 var bodyParser = require('body-parser');
+var rimraf = require('rimraf');
 var fs = require('fs');
 var filesmysql = require("./models/Files");
 var foldermysql = require("./models/Folders");
@@ -95,7 +96,7 @@ app.get('/:folder/delete', function(req, res){
 
 	if (req.params.folder){
 
-		fs.rmdir('uploads/'+req.params.folder, function (error) {
+		rimraf('uploads/'+req.params.folder, function (error) {
 			if(error){
 				console.error('échec de la suppression du répertoire', error);
 			} else {
