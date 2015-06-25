@@ -20,7 +20,7 @@ Files.prototype.select = function (){
 Files.prototype.insert = function(data){
 	mysql().connect();
 	 
-	mysql().query("INSERT INTO Files (uri, originalName, creator, type) VALUES ("+data.uri+","+data.originalName+","+data.creator+","+data.type+")", function(err, rows, fields) {
+	mysql().query("INSERT INTO Files (uri, originalName, creator, type, downloadcount, expire) VALUES ("+data.uri+","+data.originalName+","+data.creator+","+data.type+","+data.downloadcount+","+data.expire+")", function(err, rows, fields) {
 	  if (err) throw err;
 	 
 	  console.log(rows);

@@ -5,15 +5,16 @@ var done=false;
 var bodyParser = require('body-parser');
 var fs = require('fs');
 
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer({ dest: './uploads/',
-	changeDest: function(dest, req, res){
+	/*changeDest: function(dest, req, res){
 		var mkdirp = require("mkdirp");
 		var folder = req.body.folder;
 		return dest+folder;
-	},
+	},*
 	/*rename: function (fieldname, filename, req, res) {
 		return filename+Date.now();
 	},*/
@@ -48,8 +49,11 @@ app.get('/list', function(req, res) {
 app.post('/file/upload',function(req,res){
 	var folder = req.body.folder;
 	if(done==true){
+		var filesmysql = require("./models/Files");
 		console.log(req.files);
-		//res.end("File uploaded.");
+		//console.log(req.files.sharedFile.originalname);
+		//uri, originalName, creator, type, downloadcount, expire
+		filesmysql.insert({"originalName":req.files.sharedFile.originalname,"creator":creator,"type":req.files.sharedFile.extension,"downloadcount":0,"expire":expire});
 	}
 });
 
@@ -57,6 +61,8 @@ app.post('/folder/add', function(req, res){
 	var name = req.body.name;
 	var creator = req.body.creator;
 	var icon = req.body.icon;
+	var foldermysql = require("./models/Folders");
+	foldermysql.insert({"name":name,"creator":creator,"icon":icon});
 });
 
 app.get('/create/folder', function(req, res){

@@ -22,10 +22,9 @@ Folders.prototype.select = function (){
 Folders.prototype.insert = function (data){
 	mysql().connect();
 	 
-	mysql().query("INSERT INTO Folders (name, user, icon, dateinsert) VALUES ("+data.name+","+data.user+","+data.icon+","+data.dateinsert+")", function(err, rows, fields) {
-	  if (err) throw err;
-	 
-	  console.log(rows);
+	mysql().query("INSERT INTO Folders (name, creator, icon, dateinsert) VALUES ("+data.name+","+data.creator+","+data.icon+","+Date.now()+")", function(err, rows, fields) {
+		if (err) throw err;
+	  	console.log(rows);
 	});
 	 
 	mysql().end();
@@ -42,4 +41,6 @@ Folders.prototype.delete = function (id){
 	 
 	mysql().end();
 }
+
+module.exports = new Folders();
 
