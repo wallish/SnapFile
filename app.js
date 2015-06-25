@@ -36,18 +36,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/folders', function (req, res) {
-	/*fs.readdir('./uploads',function(err, folders){
-		if(err) 
-		{
-			throw err;
-			return;
-		}
-		console.log(folders);		
-		res.render('pages/list', {folders:folders})
-	});*/
-	
 	foldermysql.select(function (result){
-		res.render('pages/folders', result);
+		res.render('pages/folders', {data:result});
 	});
 	
 });
@@ -60,7 +50,7 @@ app.post('/file/upload',function(req,res){
 		
 		console.log(req.files);
 		//console.log(req.files.sharedFile.originalname);
-		//uri, originalName, creator, type, downloadcount, expire
+		//folder, originalName, creator, type, downloadcount, expire
 		filesmysql.insert({"folder":folder,"originalName":req.files.sharedFile.originalname,"creator":creator,"type":req.files.sharedFile.extension,"downloadcount":0,"expire":expire});
 	}
 });
@@ -80,7 +70,7 @@ app.get('/create/folder', function(req, res){
 app.get('/:folder', function(req, res){
 	var folder = req.params.folder;
 	filesmysql.select(folder, function (result){
-		res.render('pages/files', {result});
+		res.render('pages/files', {data:result});
 	});
 	//res.render('pages/machin',{var:values});
 });
