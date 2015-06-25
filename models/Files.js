@@ -5,13 +5,13 @@ function Files () {
 
 }
 
-Files.prototype.select = function (){
+Files.prototype.select = function (folder, cb){
 	mysql().connect();
 	 
-	mysql().query('SELECT * from Files', function(err, rows, fields) {
+	mysql().query('SELECT * from Files WHERE idFolder='+folder, function (err, rows, fields) {
 	  if (err) throw err;
 	 
-	  console.log(rows);
+	  cb(rows)
 	});
 	 
 	mysql().end();

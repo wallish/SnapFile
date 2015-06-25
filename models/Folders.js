@@ -7,16 +7,19 @@ function Folders () {
 	
 }
 
-Folders.prototype.select = function (){
-	mysql().connect();
+Folders.prototype.select = function (cb){
+	mysql().connect(); 
+	
+	var result = mysql().query('SELECT * from Folders', function (err, rows, fields) {
+ 		if (err) throw err;
 	 
-	mysql().query('SELECT * from Folders', function(err, rows, fields) {
-	  if (err) throw err;
-	 
-	  console.log(rows);
+  		//console.log(rows);
+  		cb(rows);
 	});
 	 
 	mysql().end();
+
+	return result;
 }
 
 Folders.prototype.insert = function (data){
@@ -24,6 +27,7 @@ Folders.prototype.insert = function (data){
 	 
 	mysql().query("INSERT INTO Folders (name, creator, icon, dateinsert) VALUES ("+data.name+","+data.creator+","+data.icon+","+Date.now()+")", function(err, rows, fields) {
 		if (err) throw err;
+
 	  	console.log(rows);
 	});
 	 

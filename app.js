@@ -4,6 +4,8 @@ var multer  = require('multer');
 var done=false;
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var filesmysql = require("./models/Files");
+var foldermysql = require("./models/Folders");
 
 
 app.set('view engine', 'ejs');
@@ -33,8 +35,8 @@ app.get('/', function(req, res) {
     res.render('pages/index');
 });
 
-app.get('/list', function(req, res) {
-	fs.readdir('./uploads',function(err, folders){
+app.get('/folders', function (req, res) {
+	/*fs.readdir('./uploads',function(err, folders){
 		if(err) 
 		{
 			throw err;
@@ -42,18 +44,24 @@ app.get('/list', function(req, res) {
 		}
 		console.log(folders);		
 		res.render('pages/list', {folders:folders})
+	});*/
+	
+	foldermysql.select(function (result){
+		res.render('pages/folders', result);
 	});
 	
 });
 
 app.post('/file/upload',function(req,res){
 	var folder = req.body.folder;
+	var creator = req.body.creator;
+	var expire = req.body.expire;
 	if(done==true){
-		var filesmysql = require("./models/Files");
+		
 		console.log(req.files);
 		//console.log(req.files.sharedFile.originalname);
 		//uri, originalName, creator, type, downloadcount, expire
-		filesmysql.insert({"originalName":req.files.sharedFile.originalname,"creator":creator,"type":req.files.sharedFile.extension,"downloadcount":0,"expire":expire});
+		filesmysql.insert({"folder":folder,"originalName":req.files.sharedFile.originalname,"creator":creator,"type":req.files.sharedFile.extension,"downloadcount":0,"expire":expire});
 	}
 });
 
@@ -61,7 +69,7 @@ app.post('/folder/add', function(req, res){
 	var name = req.body.name;
 	var creator = req.body.creator;
 	var icon = req.body.icon;
-	var foldermysql = require("./models/Folders");
+	
 	foldermysql.insert({"name":name,"creator":creator,"icon":icon});
 });
 
@@ -71,6 +79,9 @@ app.get('/create/folder', function(req, res){
 
 app.get('/:folder', function(req, res){
 	var folder = req.params.folder;
+	filesmysql.select(folder, function (result){
+		res.render('pages/files', {result});
+	});
 	//res.render('pages/machin',{var:values});
 });
 
