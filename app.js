@@ -3,7 +3,6 @@ var app = express();
 var multer  = require('multer');
 var done=false;
 var bodyParser = require('body-parser');
-var rimraf = require('rimraf');
 var fs = require('fs');
 var filesmysql = require("./models/Files");
 var foldermysql = require("./models/Folders");
@@ -75,17 +74,17 @@ app.post('/post/folder', function(req, res){
 	res.end("Folder created");
 });
 
-app.get('/:folder/file/delete/:file', function(req, res){
+app.get('/:folder/:file/delete', function(req, res){
 
 	if (req.params.file){
 		//var result = foldermysql.delete(req.params.file);
 
-		fs.rmdir('uploads/'+req.params.file+'/'+req.params.file, function (error) {
+		fs.unlink('uploads/'+req.params.folder+'/'+req.params.file, function (error) {
 			if(error){
-				console.error('échec de la suppression du répertoire', error);
+				console.error('échec de la suppression du fichier', error);
 			} else {
-				console.log('répertoire supprimé');
-				foldermysql.delete(req.params.file)
+				console.log('fichier supprimé');
+				filemysql.update(req.params.file, "delete=1");
 			}
 		});
 	}
@@ -96,7 +95,7 @@ app.get('/:folder/delete', function(req, res){
 
 	if (req.params.folder){
 
-		rimraf('uploads/'+req.params.folder, function (error) {
+		fs.rmdir('uploads/'+req.params.folder, function (error) {
 			if(error){
 				console.error('échec de la suppression du répertoire', error);
 			} else {
@@ -140,6 +139,7 @@ app.get('/get/files/:folder', function(req, res){
 app.get('/:folder/:file', function(req, res){
 	var folder = req.params.folder
     , file = req.params.file;
+    filesmysql.update(file, "downloadCount=downloadCount+1");
     res.download('uploads/' + folder + '/' + file);
 
 });

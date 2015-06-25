@@ -30,13 +30,13 @@ Files.prototype.insert = function(data){
 	mysql().end();
 }
 
-Files.prototype.update = function(id, data){
+Files.prototype.update = function(name, field){
 	mysql().connect();
 	 
-	mysql().query("UPDATE Files SET deleted=1 where id="+id, function(err, rows, fields) {
-	  if (err) throw err;
+	mysql().query("UPDATE Files SET "+field+" where originalName='"+name+"'", function(err, rows, fields) {
+  		if (err) throw err;
 	 
-	  console.log(rows);
+  		console.log(rows);
 	});
 	 
 	mysql().end();
