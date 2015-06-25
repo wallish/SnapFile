@@ -13,7 +13,7 @@
 
     <main>
         <span style="float:right; margin-bottom:10px">
-            <a href="/create/folder" type="button" class="btn btn-success">Ajouter</a>
+            <button type="button" class="btn btn-success">Uploader un nouveau fichier</button>
         </span>
     </main>
 
@@ -22,6 +22,9 @@
     </footer>
     <script>
         
+        var folder = <%= folder =%>;
+        alert(folder);
+        //$.get("/get/files")
     </script>
 </body>
 </html>

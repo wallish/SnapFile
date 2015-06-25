@@ -52,10 +52,7 @@ app.post('/post/file',function(req,res){
 	var creator = req.body.creator;
 	var expire = req.body.expire;
 	if(done==true){
-		
-		console.log(req.files);
-		//console.log(req.files.sharedFile.originalname);
-		//folder, originalName, creator, type, downloadcount, expire
+		//console.log(req.files);
 		filesmysql.insert({"folder":folder,"originalName":req.files.sharedFile.originalname,"creator":creator,"type":req.files.sharedFile.extension,"downloadcount":0,"expire":expire});
 	}
 });
@@ -86,7 +83,8 @@ app.get('/get/folders', function(req, res){
 
 /******* Listage des fichiers *******/
 app.get('/:folder', function(req, res){
-	res.render('pages/files');
+	var folder = req.params.folder;
+	res.render('pages/files', {folder:folder});
 	//res.render('pages/machin',{var:values});
 });
 
