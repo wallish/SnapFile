@@ -13,7 +13,7 @@
 
     <main>
         <span style="float:right; margin-bottom:10px">
-            <button type="button" class="btn btn-success">Uploader un nouveau fichier</button>
+            <button id="upload-file" type="button" class="btn btn-success">Uploader un nouveau fichier</button>
         </span>
         <div id="content">
         </div>
@@ -27,6 +27,59 @@
         var folder = "<%= folder %>";
         $.get("/get/files/"+folder, function(data){
             $("#content").html(data);
+        });
+
+        $("#upload-file").on("click",function(){
+
+            BootstrapDialog.show({
+                title: "Partager un fichier",
+                message: "<% include ../partials/newfile %>",
+                buttons: [{
+                        label: 'Partager',
+                        action: function(dialogRef){
+                            $("#uploadForm").prepend('<input type="hidden" name="folder" value="'+folder+'" />');
+                            var creator = $("#creator").val();
+                            var formData = new FormData($('form')[0]);
+                            if($("#creator").val() != "" && $("#sharedFile").val() != ""){
+                                $("#file-form").html("<progress></progress");
+                                $.ajax({
+                                    url: "/post/file",
+                                    method: "POST",
+                                    xhr: function() {  // Custom XMLHttpRequest
+                                        var myXhr = $.ajaxSettings.xhr();
+                                        if(myXhr.upload){ // Check if upload property exists
+                                            myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+                                        }
+                                        return myXhr;
+                                    },
+                                    error: function(){
+                                        BootstrapDialog .alert("Une erreur est survenue lors de l'upload du fichier.");
+                                    },
+                                    success: function(){
+                                        $.get("/get/files/"+folder, function(data){
+                                            $("#content").html(data);
+                                        });
+                                        dialogRef.close();
+                                    },
+                                    data: formData, 
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false
+
+                                });
+                                
+                            }
+
+                            
+                        }
+                    },{
+                        label: 'Annuler',
+                        action: function(dialogRef){
+                            dialogRef.close();
+                        }
+                    }]
+
+            });
         });
     </script>
 </body>

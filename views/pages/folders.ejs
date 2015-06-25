@@ -51,7 +51,7 @@
                                         return myXhr;
                                     },
                                     error: function(){
-                                        Bootstrap.alert("Une erreur est survenue lors de la création du répertoire.");
+                                        BootstrapDialog.alert("Une erreur est survenue lors de la création du répertoire.");
                                     },
                                     success: function(){
                                         $.get("/get/folders", function(data){

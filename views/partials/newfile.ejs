@@ -1,13 +1,1 @@
-<div class="jumbotron">
-    <h1>This is great</h1>
-    <p>Welcome to templating using EJS</p>
-    <form id        =  "uploadForm"
-         enctype   =  "multipart/form-data"
-         action    =  "/post/file"
-         method    =  "post"
-    >
-    <input type="hidden" name="form" value="folder" />
-    <input type="file" name="sharedFile" />
-    <input type="submit" value="Upload File" name="submit" class="btn">
-    </form>
-</div>
+<div id=\"file-form\"><form id=\"uploadForm\" enctype=\"multipart/form-data\" action=\"/post/file\" method=\"post\"><div class=\"form-group\"><label for=\"creator\">Votre nom</label><input type=\"text\" class=\"form-control\" id=\"creator\" name=\"creator\" placeholder=\"Votre nom\"></div><input type=\"hidden\" name=\"form\" value=\"file\" /><input type=\"file\" name=\"sharedFile\" /></form></div>

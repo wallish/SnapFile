@@ -19,8 +19,7 @@
     <td><%=data[i].creator%></td>
     <td><%=data[i].dateinsert%></td>
     <td>
-        <button type="button" class="btn btn-primary btn-xs">Voir</button>
-        <button type="button" class="btn btn-danger btn-xs">Supprimer</button>
+        <a href="/<%=folder+"/"+data[i].originalName%>" type="button" class="btn btn-primary btn-xs">Télécharger</a>
     </td>
     <% }} %>
 </tr>

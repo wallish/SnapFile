@@ -21,7 +21,7 @@ Files.prototype.select = function (folder, cb){
 Files.prototype.insert = function(data){
 	mysql().connect();
 	 
-	mysql().query("INSERT INTO Files (originalName, creator, type, downloadcount, expire, dateinsert) VALUES ("+data.originalName+"','"+data.creator+"','"+data.type+"','"+data.downloadcount+"','"+data.expire+"','"+moment().format('YYYY-MM-DD HH:mm:ss')+"')", function(err, rows, fields) {
+	mysql().query("INSERT INTO Files (originalName, creator, type, downloadcount, expire, dateinsert, idFolder) VALUES ('"+data.originalName+"','"+data.creator+"','"+data.type+"','"+data.downloadcount+"','"+data.expire+"','"+moment().format('YYYY-MM-DD HH:mm:ss')+"', (SELECT id FROM Folders where name='"+data.folder+"'))", function(err, rows, fields) {
 	  if (err) throw err;
 	 
 	  console.log(rows);

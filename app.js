@@ -19,13 +19,14 @@ app.use(multer({ dest: './uploads/',
 			case 'folder':
 				return './public/images/';
 			case 'file':
-				var name = req.body.name;
-				return dest+name;
+				var folder = req.body.folder;
+				console.log(folder);
+				return dest+folder;
 		}
 	},
-	/*rename: function (fieldname, filename, req, res) {
+	rename: function (fieldname, filename, req, res) {
 		return filename;
-	},*/
+	},
 	onFileUploadStart: function (file) {
 		console.log(file.originalname + ' is starting ...')
 	},
@@ -48,15 +49,12 @@ app.get('/', function(req, res) {
 app.post('/post/file',function(req,res){
 	var folder = req.body.folder;
 	var creator = req.body.creator;
-	var expire = req.body.expire;
+	console.log(folder);
+	var expire = 10000;
+	//var expire = req.body.expire;
 	if(done==true){
-		//console.log(req.files);
-		var mkdirp = require("mkdirp");
-		mkdirp('./uploads/'+req.body.name, function (err) {
-	    	if (err) console.error(err);
-	    	else console.log('Folder created.');
-		});
 		filesmysql.insert({"folder":folder,"originalName":req.files.sharedFile.originalname,"creator":creator,"type":req.files.sharedFile.extension,"downloadcount":0,"expire":expire});
+		res.end("File uploaded");
 	}
 });
 
@@ -65,7 +63,13 @@ app.post('/post/folder', function(req, res){
 	var creator = req.body.creator;
 	console.log(req.files);
 	var icon = req.files.icon.originalname;
-	
+	if(done == true) {
+		var mkdirp = require("mkdirp");
+		mkdirp('./uploads/'+req.body.name, function (err) {
+	    	if (err) console.error(err);
+	    	else console.log('Folder created.');
+		});
+	}
 	foldermysql.insert({"name":name,"creator":creator,"icon":icon});
 	res.end("Folder created");
 });
@@ -115,7 +119,7 @@ app.get('/get/files/:folder', function(req, res){
 	var folder = req.params.folder;
 
 	filesmysql.select(folder, function (result){
-		res.render('partials/fileslist', {data:result});
+		res.render('partials/fileslist', {data:result, folder:folder});
 	});
 });
 /******* FIN Listage des fichiers *******/
