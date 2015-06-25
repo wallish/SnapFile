@@ -10,7 +10,7 @@ function Folders () {
 Folders.prototype.select = function (cb){
 	mysql().connect(); 
 	
-	var result = mysql().query('SELECT * from Folders', function (err, rows, fields) {
+	var result = mysql().query('SELECT * from Folders where deleted=0', function (err, rows, fields) {
  		if (err) throw err;
 	 
   		cb(rows);
