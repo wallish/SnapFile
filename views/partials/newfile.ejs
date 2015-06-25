@@ -3,9 +3,10 @@
     <p>Welcome to templating using EJS</p>
     <form id        =  "uploadForm"
          enctype   =  "multipart/form-data"
-         action    =  "/file/upload"
+         action    =  "/post/file"
          method    =  "post"
     >
+    <input type="hidden" name="form" value="folder" />
     <input type="file" name="sharedFile" />
     <input type="submit" value="Upload File" name="submit" class="btn">
     </form>

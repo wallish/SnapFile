@@ -12,13 +12,19 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer({ dest: './uploads/',
-	/*changeDest: function(dest, req, res){
-		var mkdirp = require("mkdirp");
-		var folder = req.body.folder;
-		return dest+folder;
-	},*
+	changeDest: function(dest, req, res){
+		switch(req.body.form)
+		{
+			case 'folder':
+				return './public/images/';
+			case 'file':
+				var mkdirp = require("mkdirp");
+				var name = req.body.name;
+				return dest+name;
+		}
+	},
 	/*rename: function (fieldname, filename, req, res) {
-		return filename+Date.now();
+		return filename;
 	},*/
 	onFileUploadStart: function (file) {
 		console.log(file.originalname + ' is starting ...')
@@ -42,7 +48,7 @@ app.get('/folders', function (req, res) {
 	
 });
 
-app.post('/file/upload',function(req,res){
+app.post('/post/file',function(req,res){
 	var folder = req.body.folder;
 	var creator = req.body.creator;
 	var expire = req.body.expire;
@@ -55,7 +61,7 @@ app.post('/file/upload',function(req,res){
 	}
 });
 
-app.post('/folder/add', function(req, res){
+app.post('/post/folder', function(req, res){
 	var name = req.body.name;
 	var creator = req.body.creator;
 	var icon = req.body.icon;
@@ -70,7 +76,7 @@ app.get('/create/folder', function(req, res){
 app.get('/:folder', function(req, res){
 	var folder = req.params.folder;
 	filesmysql.select(folder, function (result){
-		res.render('pages/files', {data:result});
+		res.render('pages/files', {dataresult:result});
 	});
 	//res.render('pages/machin',{var:values});
 });
