@@ -42,8 +42,10 @@ app.get('/', function(req, res) {
 });
 
 app.get('/folders', function (req, res) {
+
+	var toto = fafa;
 	foldermysql.select(function (result){
-		res.render('pages/folders', {data:result});
+		res.render('pages/folders', {data:result,});
 	});
 	
 });
@@ -72,6 +74,31 @@ app.post('/post/folder', function(req, res){
 app.get('/create/folder', function(req, res){
 	res.render('pages/formFolder');
 });
+
+app.get('/:folder/delete/:id', function(req, res){
+
+	if (req.params.id){
+		var result = foldermysql.delete(req.params.id);
+
+		/*fs.rmdir('path', function (error) {
+			if(error){
+				console.error('échec de la suppression du répertoire', error);
+			} else {
+				console.log('répertoire créé');
+			}
+
+		});
+		*/
+
+	}
+
+
+
+//	res.render('pages/formFolder');
+});
+
+
+
 
 app.get('/:folder', function(req, res){
 	var folder = req.params.folder;
