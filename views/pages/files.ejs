@@ -15,6 +15,8 @@
         <span style="float:right; margin-bottom:10px">
             <button type="button" class="btn btn-success">Uploader un nouveau fichier</button>
         </span>
+        <div id="content">
+        </div>
     </main>
 
     <footer>
@@ -22,9 +24,11 @@
     </footer>
     <script>
         
-        var folder = <%= folder =%>;
-        alert(folder);
-        //$.get("/get/files")
+        var folder = "<%= folder %>";
+        //alert(folder);
+        $.get("/get/files/"+folder, function(data){
+            $("#content").html(data);
+        });
     </script>
 </body>
 </html>
