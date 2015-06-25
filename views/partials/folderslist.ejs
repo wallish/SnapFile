@@ -1,0 +1,23 @@
+
+<div style="clear:both"></div>
+<table class="table table-striped">
+<tr>
+    <td>Icone</td>
+    <td>Nom</td>
+    <td>Crée par</td>
+    <td>Date d'ajout</td>
+    <td>Action</td>
+</tr>
+    <% for(var i=0; i<data.length; i++) {%>
+    <tr>
+    <td> - </td>
+    <td><%=data[i].name%></td>
+    <td><%=data[i].user%></td>
+    <td><%=data[i].dateinsert%></td>
+    <td>
+        <button type="button" class="btn btn-primary btn-xs">Voir</button>
+        <button type="button" class="btn btn-danger btn-xs">Supprimer</button>
+    </td>
+    <% } %>
+</tr>
+</table>
