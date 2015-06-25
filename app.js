@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var filesmysql = require("./models/Files");
 var foldermysql = require("./models/Folders");
+var usersmysql = require("./models/Users");
 
 
 app.set('view engine', 'ejs');
@@ -42,9 +43,11 @@ app.use(express.static('public'));
 
 
 app.get('/', function(req, res) {
-    res.render('pages/index');
-});
 
+		usersmysql.select(function (result){
+		res.render('pages/index', {data:result,});
+	});
+});
 
 
 app.post('/post/file',function(req,res){
@@ -67,6 +70,27 @@ app.post('/post/folder', function(req, res){
 	res.end("Folder created");
 });
 
+app.get('/:folder/delete/:id', function(req, res){
+
+	if (req.params.id){
+		var result = foldermysql.delete(req.params.id);
+
+		/*fs.rmdir('path', function (error) {
+			if(error){
+				console.error('échec de la suppression du répertoire', error);
+			} else {
+				console.log('répertoire créé');
+			}
+
+		});
+		*/
+
+	}
+
+
+
+//	res.render('pages/formFolder');
+});
 
 /******* Listage des repertoires ******/
 app.get('/folders', function (req, res) {

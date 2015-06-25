@@ -12,18 +12,16 @@
     </header>
 
     <main>
-        <div class="jumbotron">
-            <h1>This is great</h1>
-            <p>Welcome to templating using EJS</p>
-            <form id       =  "uploadForm"
-                 enctype   =  "multipart/form-data"
-                 action    =  "/file/upload"
-                 method    =  "post"
-            >
-            <input type="file" name="sharedFile" />
-            <input type="submit" value="Upload File" name="submit" class="btn">
-            </form>
-        </div>
+     <table class="table table-striped">
+        <% for(var i=0; i<data.length; i++) {%>
+        <tr>
+        <td><img src="images/photos/<%=data[i].photo%>"> </td>
+        <td><%=data[i].nom%></td>
+        <td><%=data[i].prenom%></td>
+        <td><%=data[i].entreprise%></td>
+
+        <% } %>
+     </table>
     </main>
 
     <footer>
