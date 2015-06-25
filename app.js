@@ -140,6 +140,7 @@ app.get('/:folder/:file', function(req, res){
 	var folder = req.params.folder
     , file = req.params.file;
     res.download('uploads/' + folder + '/' + file);
+
 });
 
 app.listen(8080);

@@ -12,7 +12,7 @@
     <% if(typeof data != 'undefined'){ %>
     <% for(var i=0; i<data.length; i++) {%>
     <tr>
-    <td><%=data[i].type%></td>
+    <td><img src="/images/filetype/<%=data[i].type%>.png"/></td>
     <td><%=data[i].originalName%></td>
     <td><%=data[i].downloadCount%></td>
     <td><%=data[i].expire%></td>
