@@ -16,9 +16,13 @@ app.use(multer({ dest: './uploads/',
 		switch(req.body.form)
 		{
 			case 'folder':
+				var mkdirp = require("mkdirp");
+				mkdirp('./uploads/'+req.body.name, function (err) {
+			    	if (err) console.error(err);
+			    	else console.log('Folder created.');
+				});
 				return './public/images/';
 			case 'file':
-				var mkdirp = require("mkdirp");
 				var name = req.body.name;
 				return dest+name;
 		}
@@ -41,12 +45,7 @@ app.get('/', function(req, res) {
     res.render('pages/index');
 });
 
-app.get('/folders', function (req, res) {
-	foldermysql.select(function (result){
-		res.render('pages/folders', {data:result});
-	});
-	
-});
+
 
 app.post('/post/file',function(req,res){
 	var folder = req.body.folder;
@@ -71,17 +70,33 @@ app.post('/post/folder', function(req, res){
 	res.end("Folder created");
 });
 
-app.get('/create/folder', function(req, res){
-	res.render('pages/formFolder');
+
+/******* Listage des repertoires ******/
+app.get('/folders', function (req, res) {
+	
+	res.render('pages/folders');
 });
 
-app.get('/:folder', function(req, res){
-	var folder = req.params.folder;
-	filesmysql.select(folder, function (result){
-		res.render('pages/files', {dataresult:result});
+app.get('/get/folders', function(req, res){
+	foldermysql.select(function (result){
+		res.render('partials/folderslist', {data:result});
 	});
+});
+/******* FIN Listage des repertoires ******/
+
+/******* Listage des fichiers *******/
+app.get('/:folder', function(req, res){
+	res.render('pages/files');
 	//res.render('pages/machin',{var:values});
 });
+
+app.get('/get/files/:folder', function(req, res){
+	var folder = req.params.folder;
+	filesmysql.select(folder, function (result){
+		res.render('partials/fileslist', {dataresult:result});
+	});
+});
+/******* FIN Listage des fichiers *******/
 
 app.get('/:folder/:file', function(req, res){
 	var folder = req.params.folder

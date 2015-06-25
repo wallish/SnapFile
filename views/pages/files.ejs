@@ -15,37 +15,13 @@
         <span style="float:right; margin-bottom:10px">
             <a href="/create/folder" type="button" class="btn btn-success">Ajouter</a>
         </span>
-        <div style="clear:both"></div>
-        <table class="table table-striped">
-        <tr>
-            <td>Type</td>
-            <td>Nom</td>
-            <td>Nombre de téléchargement</td>
-            <td>Expire dans</td>
-            <td>Crée par</td>
-            <td>Date d'ajout</td>
-            <td>Action</td>
-        </tr>
-            <% for(var i=0; i<data.length; i++) {%>
-            <tr>
-            <td><%=data[i].type%></td>
-            <td><%=data[i].originalName%></td>
-            <td><%=data[i].downloadCount%></td>
-            <td><%=data[i].expire%></td>
-            <td><%=data[i].creator%></td>
-            <td><%=data[i].dateinsert%></td>
-            <td>
-                <button type="button" class="btn btn-primary btn-xs">Voir</button>
-                <button type="button" class="btn btn-danger btn-xs">Supprimer</button>
-            </td>
-            <% } %>
-        </tr>
-        </table>
     </main>
 
     <footer>
         <% include ../partials/footer %>
     </footer>
-    
+    <script>
+        
+    </script>
 </body>
 </html>

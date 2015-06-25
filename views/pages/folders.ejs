@@ -15,34 +15,17 @@
         <span style="float:right; margin-bottom:10px">
             <button type="button" id="create-folder" class="btn btn-success">Ajouter</button>
         </span>
-        <div style="clear:both"></div>
-        <table class="table table-striped">
-        <tr>
-            <td>Icone</td>
-            <td>Nom</td>
-            <td>Crée par</td>
-            <td>Date d'ajout</td>
-            <td>Action</td>
-        </tr>
-            <% for(var i=0; i<data.length; i++) {%>
-            <tr>
-            <td> - </td>
-            <td><%=data[i].name%></td>
-            <td><%=data[i].user%></td>
-            <td><%=data[i].dateinsert%></td>
-            <td>
-                <button type="button" class="btn btn-primary btn-xs">Voir</button>
-                <button type="button" class="btn btn-danger btn-xs">Supprimer</button>
-            </td>
-            <% } %>
-        </tr>
-        </table>
+        <div id="content">
+        </div>
     </main>
 
     <footer>
         <% include ../partials/footer %>
     </footer>
     <script>
+        $.get("/get/folders", function(data){
+            $("#content").html(data);
+        });
         $("#create-folder").on("click",function(){
 
             BootstrapDialog.show({
@@ -68,9 +51,12 @@
                                         return myXhr;
                                     },
                                     error: function(){
-                                        alert("Une erreur est survenue lors de la création du répertoire.");
+                                        Bootstrap.alert("Une erreur est survenue lors de la création du répertoire.");
                                     },
                                     success: function(){
+                                        $.get("/get/folders", function(data){
+                                            $("#content").html(data);
+                                        });
                                         dialogRef.close();
                                     },
                                     data: formData, 
