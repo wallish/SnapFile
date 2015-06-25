@@ -25,7 +25,6 @@
     <script>
         
         var folder = "<%= folder %>";
-        //alert(folder);
         $.get("/get/files/"+folder, function(data){
             $("#content").html(data);
         });

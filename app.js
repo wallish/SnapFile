@@ -17,11 +17,6 @@ app.use(multer({ dest: './uploads/',
 		switch(req.body.form)
 		{
 			case 'folder':
-				var mkdirp = require("mkdirp");
-				mkdirp('./uploads/'+req.body.name, function (err) {
-			    	if (err) console.error(err);
-			    	else console.log('Folder created.');
-				});
 				return './public/images/';
 			case 'file':
 				var name = req.body.name;
@@ -56,6 +51,11 @@ app.post('/post/file',function(req,res){
 	var expire = req.body.expire;
 	if(done==true){
 		//console.log(req.files);
+		var mkdirp = require("mkdirp");
+		mkdirp('./uploads/'+req.body.name, function (err) {
+	    	if (err) console.error(err);
+	    	else console.log('Folder created.');
+		});
 		filesmysql.insert({"folder":folder,"originalName":req.files.sharedFile.originalname,"creator":creator,"type":req.files.sharedFile.extension,"downloadcount":0,"expire":expire});
 	}
 });
@@ -109,13 +109,13 @@ app.get('/get/folders', function(req, res){
 app.get('/:folder', function(req, res){
 	var folder = req.params.folder;
 	res.render('pages/files', {folder:folder});
-	//res.render('pages/machin',{var:values});
 });
 
 app.get('/get/files/:folder', function(req, res){
 	var folder = req.params.folder;
+
 	filesmysql.select(folder, function (result){
-		res.render('partials/fileslist', {dataresult:result});
+		res.render('partials/fileslist', {data:result});
 	});
 });
 /******* FIN Listage des fichiers *******/
