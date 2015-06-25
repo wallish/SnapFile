@@ -33,10 +33,10 @@ Folders.prototype.insert = function (data){
 	mysql().end();
 }
 
-Folders.prototype.delete = function (id){
+Folders.prototype.delete = function (name){
 	mysql().connect();
 	 
-	mysql().query("UPDATE Folders SET deleted=1 where id="+id, function(err, rows, fields) {
+	mysql().query("UPDATE Folders SET deleted=1 where name='"+name+"'", function(err, rows, fields) {
 	  if (err) throw err;
 	 
 	  console.log(rows);

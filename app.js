@@ -74,6 +74,39 @@ app.post('/post/folder', function(req, res){
 	res.end("Folder created");
 });
 
+app.get('/:folder/file/delete/:file', function(req, res){
+
+	if (req.params.file){
+		//var result = foldermysql.delete(req.params.file);
+
+		fs.rmdir(req.params.file, function (error) {
+			if(error){
+				console.error('échec de la suppression du répertoire', error);
+			} else {
+				console.log('répertoire supprimé');
+				foldermysql.delete(req.params.file)
+			}
+		});
+	}
+//	res.render('pages/formFolder');
+});
+
+app.get('/:folder/delete', function(req, res){
+
+	if (req.params.folder){
+
+		fs.rmdir(req.params.id, function (error) {
+			if(error){
+				console.error('échec de la suppression du répertoire', error);
+			} else {
+				console.log('répertoire supprimé');
+				foldermysql.delete(req.params.folder)
+			}
+		});
+	}
+//	res.render('pages/formFolder');
+});
+
 app.get('/:folder/delete/:id', function(req, res){
 
 	if (req.params.id){
