@@ -44,23 +44,52 @@
     </footer>
     <script>
         $("#create-folder").on("click",function(){
+
             BootstrapDialog.show({
                 title: "Création d'un répertoire",
                 message: "<% include ../partials/newfolder %>",
                 buttons: [{
                         label: 'Ajouter',
                         action: function(dialogRef){
-                            $.ajax({
+                            var name = $("#name").val();
+                            var creator = $("#creator").val();
+                            var icon = $("#icon").val();
+                            var formData = new FormData($('form')[0]);
+                            if($("#name").val() != "" && $("#creator").val() != "" && $("#file").val() != ""){
+                                $("#folder-form").html("<progress></progress");
+                                $.ajax({
+                                    url: "/post/folder",
+                                    method: "POST",
+                                    xhr: function() {  // Custom XMLHttpRequest
+                                        var myXhr = $.ajaxSettings.xhr();
+                                        if(myXhr.upload){ // Check if upload property exists
+                                            myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+                                        }
+                                        return myXhr;
+                                    },
+                                    error: function(){
+                                        alert("Une erreur est survenue lors de la création du répertoire.");
+                                    },
+                                    success: function(){
+                                        dialogRef.close();
+                                    },
+                                    data: formData, 
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false
 
-                            });
-                            dialogRef.close();
+                                });
+                                
+                            }
+
+                            
                         }
                     },{
                         label: 'Annuler',
                         action: function(dialogRef){
                             dialogRef.close();
                         }
-                    }
+                    }]
 
             });
         });

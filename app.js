@@ -66,9 +66,11 @@ app.post('/post/file',function(req,res){
 app.post('/post/folder', function(req, res){
 	var name = req.body.name;
 	var creator = req.body.creator;
-	var icon = req.body.icon;
+	console.log(req.files);
+	var icon = req.files.icon.originalname;
 	
 	foldermysql.insert({"name":name,"creator":creator,"icon":icon});
+	res.end("Folder created");
 });
 
 app.get('/create/folder', function(req, res){
