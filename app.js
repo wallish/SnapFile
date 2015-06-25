@@ -79,7 +79,7 @@ app.get('/:folder/file/delete/:file', function(req, res){
 	if (req.params.file){
 		//var result = foldermysql.delete(req.params.file);
 
-		fs.rmdir(req.params.file, function (error) {
+		fs.rmdir('uploads/'+req.params.file+'/'+req.params.file, function (error) {
 			if(error){
 				console.error('échec de la suppression du répertoire', error);
 			} else {
@@ -95,7 +95,7 @@ app.get('/:folder/delete', function(req, res){
 
 	if (req.params.folder){
 
-		fs.rmdir(req.params.id, function (error) {
+		fs.rmdir('uploads/'+req.params.folder, function (error) {
 			if(error){
 				console.error('échec de la suppression du répertoire', error);
 			} else {
@@ -107,27 +107,6 @@ app.get('/:folder/delete', function(req, res){
 //	res.render('pages/formFolder');
 });
 
-app.get('/:folder/delete/:id', function(req, res){
-
-	if (req.params.id){
-		var result = foldermysql.delete(req.params.id);
-
-		/*fs.rmdir('path', function (error) {
-			if(error){
-				console.error('échec de la suppression du répertoire', error);
-			} else {
-				console.log('répertoire créé');
-			}
-
-		});
-		*/
-
-	}
-
-
-
-//	res.render('pages/formFolder');
-});
 
 /******* Listage des repertoires ******/
 app.get('/folders', function (req, res) {
