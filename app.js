@@ -3,14 +3,20 @@ var app = express();
 var multer  = require('multer');
 var done=false;
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer({ dest: './uploads/',
-	rename: function (fieldname, filename) {
-		return filename+Date.now();
+	changeDest: function(dest, req, res){
+		var mkdirp = require("mkdirp");
+		var folder = req.body.folder;
+		return dest+folder;
 	},
+	/*rename: function (fieldname, filename, req, res) {
+		return filename+Date.now();
+	},*/
 	onFileUploadStart: function (file) {
 		console.log(file.originalname + ' is starting ...')
 	},
@@ -27,26 +33,30 @@ app.get('/', function(req, res) {
 });
 
 app.get('/list', function(req, res) {
-
-
-	var data = [
-				{type:"pdf",name:"dossier1"},
-				{type:"pdf",name:"dossier2"},
-				{type:"pdf",name:"dossier3"},
-				{type:"pdf",name:"dossier4"},
-	];
+	fs.readdir('./uploads',function(err, folders){
+		if(err) 
+		{
+			throw err;
+			return;
+		}
+		console.log(folders);		
+		res.render('pages/list', {folders:folders})
+	});
 	
-    res.render('pages/list',{
-    	data : data,
-    });
 });
 
 app.post('/file/upload',function(req,res){
 	var folder = req.body.folder;
 	if(done==true){
 		console.log(req.files);
-		res.end("File uploaded.");
+		//res.end("File uploaded.");
 	}
+});
+
+app.post('/folder/add', function(req, res){
+	var name = req.body.name;
+	var creator = req.body.creator;
+	var icon = req.body.icon;
 });
 
 app.get('/create/folder', function(req, res){
