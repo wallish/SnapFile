@@ -13,6 +13,20 @@
 
     <main>
      <table class="table table-striped">
+        <tr>
+            <td colspan=4>
+            <div>
+                <h3>Description du projet<h3>
+                <span>Application web permettant de partager des fichiers de manière éphémère pour que les utilisateurs puissent partager en toute simplicité et rapidement</span>
+            </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td>Nom</td>
+            <td>Prénom</td>
+            <td>Entreprise</td>
+        </tr>
         <% for(var i=0; i<data.length; i++) {%>
         <tr>
         <td><img src="images/photos/<%=data[i].photo%>"> </td>
