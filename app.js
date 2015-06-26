@@ -150,7 +150,7 @@ app.get('/:folder/:file', function (req, res){
     , file = req.params.file;
     filesmysql.update(file, "downloadCount=downloadCount+1");
     res.download('uploads/' + folder + '/' + file);
-
+   
 });
 
 app.listen(8080);

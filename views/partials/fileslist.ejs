@@ -1,5 +1,5 @@
 <div style="clear:both"></div>
-<table class="table table-striped files-list">
+<!--<table class="table table-striped files-list">
 <tr>
     <td></td>
     <td>Nom</td>
@@ -10,16 +10,34 @@
 </tr>
     <% if(typeof data != 'undefined'){ %>
     <% for(var i=0; i<data.length; i++) {%>
-    <tr>
+    <tr class="tr-file">
     <td><img src="/images/filetype/<%=data[i].type%>.png" width="64px"/></td>
-    <td><%=data[i].originalName%></td>
-    <td><%=data[i].downloadCount%></td>
-    <td><%=data[i].creator%></td>
-    <td><%=data[i].dateinsert%></td>
+    <td><span><%=data[i].originalName%></span></td>
+    <td><span><%=data[i].downloadCount%></span></td>
+    <td><span><%=data[i].creator%></span></td>
+    <td><span><%=data[i].dateinsert%></span></td>
     <td>
+        <span>
         <a href="/<%=folder+"/"+data[i].originalName%>" type="button" class="btn btn-primary btn-xs">Télécharger</a>
         <button type="button" id="<%=data[i].originalName%>" class="btn btn-danger btn-xs delete-file">Supprimer</button>
+        </span>
     </td>
     <% }} %>
 </tr>
-</table>
+</table>-->
+
+<div class="col-md-12 files-list">
+    <% if(typeof data != 'undefined'){ %>
+    <% for(var i=0; i<data.length; i++) {%>
+        <div class="file row">
+            <div class="col-md-1"><img src="/images/filetype/<%=data[i].type%>.png" width="64px"/></div>
+            <div class="col-md-10">
+                <div class="row file-name"><%=data[i].originalName%> - <small><%=data[i].creator%></small></div>
+                <div class="row file-infos">
+                    <div class="file-dateinsert"><%=data[i].dateinsert%></div>
+                    <div class="file-downloads">Téléchargé : <%=data[i].downloadCount%> fois</div>
+                </div>
+            </div>
+        </div>
+    <% }} %>
+</div>

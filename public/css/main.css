@@ -9,4 +9,6 @@
 .folder-container:hover {border:1px solr #ccc; background: rgba(200,200,200,0.5);cursor:pointer;}
 .folder img {display:block; magin:auto;}
 
-.files-list tr td { vertical-align: middle;}
+.files-list .file-name {font-weight:bold; font-size:16px; margin-top:10px;}
+.files-list .file-infos div {margin-right:5px;}
+.files-list .file-infos .file-dateinsert, .files-list .file-infos .file-downloads {float:left; font-size:12px; color:#aaa;}
