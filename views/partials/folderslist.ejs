@@ -1,24 +1,17 @@
 
 <div style="clear:both"></div>
-<table class="table table-striped">
-<tr>
-    <td>Icone</td>
-    <td>Nom</td>
-    <td>Crée par</td>
-    <td>Date d'ajout</td>
-    <td>Action</td>
-</tr>
-    <% if(typeof data != 'undefined'){ %>
+
+<% if(data != undefined ){ %>
     <% for(var i=0; i<data.length; i++) {%>
-    <tr>
-    <td> - </td>
-    <td><%=data[i].name%></td>
-    <td><%=data[i].creator%></td>
-    <td><%=data[i].dateinsert%></td>
-    <td>
-        <a href="/<%= data[i].name %>" type="button" class="btn btn-primary btn-xs">Voir</a>
-        <button type="button" class="btn btn-danger btn-xs">Supprimer</button>
-    </td>
-    <% }} %>
-</tr>
-</table>
+    <div class="col-md-1 folder-container">
+	    <a href="/<%= data[i].name %>">
+		    <div class="folder">
+		        <div><%=data[i].name%>&nbsp;<span class="badge"><%=data[i].files%></span></div>
+		        <img src="images/folder.png" width="50px" style="margin:auto;" />
+		        <small><%=data[i].creator%></small>
+		        <small>Downloads : <%= (data[i].downloads != null)? data[i].downloads : '0' %></small>
+		    </div>
+	    </a>
+	    <button type="button" id="<%=data[i].name%>" class="btn btn-danger btn-xs delete-folder">Supprimer</button>
+    </div>
+<% }} %>

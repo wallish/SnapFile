@@ -12,6 +12,9 @@
     </header>
 
     <main>
+        <div style="float:left;">
+        <h3 style="vertical-align:bottom;"><img src="images/folder.png" width="32px" style="vertical-align:top;" />&nbsp;/<%=folder.name%> - <small><%=folder.creator%> (Downloads : <%=folder.downloads%>)</small></h3>
+        </div>
         <span style="float:right; margin-bottom:10px">
             <button id="upload-file" type="button" class="btn btn-success">Uploader un nouveau fichier</button>
         </span>
@@ -24,7 +27,7 @@
     </footer>
     <script>
         
-        var folder = "<%= folder %>";
+        var folder = "<%= folder.name %>";
         $.get("/get/files/"+folder, function(data){
             $("#content").html(data);
         });
@@ -36,6 +39,7 @@
                 message: "<% include ../partials/newfile %>",
                 buttons: [{
                         label: 'Partager',
+                        cssClass: 'btn-success',
                         action: function(dialogRef){
                             $("#uploadForm").prepend('<input type="hidden" name="folder" value="'+folder+'" />');
                             var creator = $("#creator").val();
@@ -79,6 +83,36 @@
                         }
                     }]
 
+            });
+
+        });
+        
+        $("#content").on("click","button.delete-file", function(){
+            var that = $(this);
+            BootstrapDialog.show({
+                title: "Suppression du fichier "+that.attr("id"),
+                message: "Êtes-vous sûrs de vouloir supprimer ce fichier ?",
+                buttons: [{
+                        label: 'Oui',
+                        cssClass: 'btn-success',
+                        action: function(dialogRef){
+                            $.ajax({
+                                url:"/"+folder+"/"+that.attr("id")+"/delete",
+                                methode:"get",
+                                success: function(){
+                                    $.get("/get/files/"+folder, function(data){
+                                        $("#content").html(data);
+                                    });
+                                    dialogRef.close();
+                                }
+                            });
+                        }
+                    },{
+                        label: 'Non',
+                        action: function(dialogRef){
+                            dialogRef.close();
+                        }
+                    }]
             });
         });
     </script>

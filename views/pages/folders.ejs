@@ -12,10 +12,11 @@
     </header>
 
     <main>
-        <span style="float:right; margin-bottom:10px">
-            <button type="button" id="create-folder" class="btn btn-success">Ajouter</button>
-        </span>
+        
         <div id="content">
+        </div>
+        <div class="col-md-1">
+            <button type="button" id="create-folder" class="btn btn-success">Ajouter</button>
         </div>
     </main>
 
@@ -33,42 +34,32 @@
                 message: "<% include ../partials/newfolder %>",
                 buttons: [{
                         label: 'Ajouter',
+                        cssClass: 'btn-success',
                         action: function(dialogRef){
                             var name = $("#name").val();
                             var creator = $("#creator").val();
-                            var icon = $("#icon").val();
-                            var formData = new FormData($('form')[0]);
-                            if($("#name").val() != "" && $("#creator").val() != "" && $("#file").val() != ""){
-                                $("#folder-form").html("<progress></progress");
-                                $.ajax({
-                                    url: "/post/folder",
-                                    method: "POST",
-                                    xhr: function() {  // Custom XMLHttpRequest
-                                        var myXhr = $.ajaxSettings.xhr();
-                                        if(myXhr.upload){ // Check if upload property exists
-                                            myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-                                        }
-                                        return myXhr;
-                                    },
-                                    error: function(){
-                                        BootstrapDialog.alert("Une erreur est survenue lors de la création du répertoire.");
-                                    },
-                                    success: function(){
-                                        $.get("/get/folders", function(data){
-                                            $("#content").html(data);
+                            var expire = $("#expire").val();
+                            $.get("/check/"+name, function(samefolders){
+                                if(samefolders.length > 0 || name=="folders"){
+                                    BootstrapDialog.alert("Il existe déjà un répertoire sous le nom que vous avez choisi, veuillez en choisir un autre.");
+                                } else {
+                                    if($("#name").val() != "" && $("#creator").val() != "" && $("#expire").val() != ""){
+                                        $.ajax({
+                                            url: "/post/folder",
+                                            method: "POST",
+                                            data: {name:name,creator:creator,expire:expire},
+                                            success: function(){
+                                                $.get("/get/folders", function(data){
+                                                    $("#content").html(data);
+                                                });
+                                                dialogRef.close();
+                                            }
+
                                         });
-                                        dialogRef.close();
-                                    },
-                                    data: formData, 
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false
-
-                                });
-                                
-                            }
-
-                            
+                                        
+                                    }
+                                }
+                            });
                         }
                     },{
                         label: 'Annuler',
@@ -77,6 +68,34 @@
                         }
                     }]
 
+            });
+        });
+        $("#content").on("click","button.delete-folder", function(){
+            var that = $(this);
+            BootstrapDialog.show({
+                title: "Suppression du répertoire "+that.attr("id"),
+                message: "Êtes-vous sûrs de vouloir supprimer ce répertoire ?",
+                buttons: [{
+                        label: 'Oui',
+                        cssClass: 'btn-success',
+                        action: function(dialogRef){
+                            $.ajax({
+                                url:"/"+that.attr("id")+"/delete",
+                                methode:"get",
+                                success: function(){
+                                    $.get("/get/folders", function(data){
+                                        $("#content").html(data);
+                                    });
+                                    dialogRef.close();
+                                }
+                            });
+                        }
+                    },{
+                        label: 'Non',
+                        action: function(dialogRef){
+                            dialogRef.close();
+                        }
+                    }]
             });
         });
     </script>

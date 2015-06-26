@@ -1,0 +1,12 @@
+
+.top-title {vertical-align: middle;}
+
+.folder-container {
+	padding:5px;
+	text-align:center;
+}
+.folder-container a:hover {text-decoration: none;}
+.folder-container:hover {border:1px solr #ccc; background: rgba(200,200,200,0.5);cursor:pointer;}
+.folder img {display:block; magin:auto;}
+
+.files-list tr td { vertical-align: middle;}

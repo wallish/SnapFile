@@ -5,17 +5,15 @@ function Users () {
 }
 
 Users.prototype.select = function (cb){
-	mysql().connect(); 
+	mysql.getConnection(function(connectionerr, connection) {
 	
-	var result = mysql().query('SELECT * from Users', function (err, rows, fields) {
- 		if (err) throw err;
-	 
-  		cb(rows);
+		var result = connection.query('SELECT * from Users', function (err, rows, fields) {
+	 		if (err) throw err;
+		 
+	  		cb(rows);
+		});
 	});
 	 
-	mysql().end();
-
-	return result;
 }
 
 module.exports = new Users();
